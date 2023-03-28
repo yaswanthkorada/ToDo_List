@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sorted List Example</title>
+	<style>
+		h1 {
+			text-align: center;
+		}
+		form {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin: 20px;
+		}
+		form button {
+			margin-left: 10px;
+		}
+		ul {
+			list-style-type: none;
+			padding: 0;
+			margin: 20px;
+			border: 2px solid black;
+			border-radius: 10px;
+		}
+		li {
+			padding: 10px;
+			border-bottom: 1px solid black;
+		}
+		li:last-child {
+			border-bottom: none;
+		}
+		.selected {
+			background-color: #e6e6e6;
+		}
+        div {
+  width: 300px;
+  margin: auto;
+  border: 1px solid red;
+}
+
+	</style>
+</head>
+<body>
+	<h1>Add Item</h1>
+	<form id="add-form">
+		<label for="element">Element:</label>
+		<input type="text" id="element" name="element">
+		<button type="button" onclick="addElement()">Add</button>
+	</form>
+	<div>
+	<h2>List of Elements</h2>
+	<ul id="element-list" onclick="selectElement(event)">
+	</ul>
+    </div>
+    <br>
+	<form id="sort-form">
+		<button type="button" onclick="deleteSelected()">Delete</button>
+        <button type="button" onclick="sortList()">Sort</button>
+		<button type="button" onclick="clearList()">Clear All</button>
+	</form>
+	<br>
+	<script>
+		var elements = [];
+
+		function addElement() {
+			var element = document.getElementById("element").value;
+			elements.push(element);
+			document.getElementById("element").value = "";
+			updateList();
+		}
+
+		function updateList() {
+			var list = document.getElementById("element-list");
+			list.innerHTML = "";
+			for (var i = 0; i < elements.length; i++) {
+				var item = document.createElement("li");
+				item.appendChild(document.createTextNode(elements[i]));
+				list.appendChild(item);
+			}
+		}
+
+		function sortList() {
+			elements.sort();
+			updateList();
+		}
+
+		function deleteSelected() {
+            alert("first select element");
+			var list = document.getElementById("element-list");
+			var selectedItems = list.getElementsByClassName("selected");
+			while (selectedItems.length > 0) {
+				var index = Array.prototype.indexOf.call(list.children, selectedItems[0]);
+				elements.splice(index, 1);
+				list.removeChild(selectedItems[0]);
+			}
+		}
+
+		function clearList() {
+            alert("are you sure you want to clear");
+			elements = [];
+			updateList();
+		}
+
+		function selectElement(event) {
+			var item = event.target;
+			if (item.tagName === "LI") {
+				item.classList.toggle("selected");
+			}
+		}
+	</script>
+</body>
+</html>
